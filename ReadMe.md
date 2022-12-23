@@ -63,7 +63,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<!-- [![Product Name Screen Shot][product-screenshot]](https://example.com) -->
 
 This is a simple live chat application where users can concurrently interact with each other. The application saves users messages to a backend, so every time application starts all the data is retained. 
 
@@ -100,7 +100,7 @@ For this you need npm and node. You can check if you have them installed by runn
 <!-- 1. Get a free API Key at [https://example.com](https://example.com) -->
 1. Clone the repo
    ```sh
-   git clone <repo-url.git>
+   git clone https://github.com/kaarelkaarelson/chat-app.git
    ```
 2. Install NPM packages
    ```sh
