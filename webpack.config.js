@@ -1,5 +1,6 @@
-const path = require("path");
-const HtmlWebpackPlugin = require("html-webpack-plugin");
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ESLintPlugin = require('eslint-webpack-plugin');
 
 /*We are basically telling webpack to take index.js from entry. Then check for all file extensions in resolve. 
 After that apply all the rules in module.rules and produce the output and place it in main.js in the public folder.*/
@@ -9,36 +10,37 @@ module.exports = {
    * the environment - development, production, none. tells webpack
    * to use its built-in optimizations accordingly. default is production
    */
-  mode: "development",
+  mode: 'development',
   /** "entry"
    * the entry point
    */
-  entry: "./src/index.js",
+  entry: './src/index.js',
   output: {
     /** "path"
      * the folder path of the output file
      */
-    path: path.resolve(__dirname, "public"),
+    path: path.resolve(__dirname, 'public'),
     /** "filename"
      * the name of the output file
      */
-    filename: "main.js",
-    publicPath: "/",
+    filename: 'main.js',
+    // filename: '[name].js',
+    publicPath: '/',
   },
   /** "target"
    * setting "node" as target app (server side), and setting it as "web" is
    * for browser (client side). Default is "web"
    */
-  target: "web",
+  target: 'web',
   devServer: {
     /** "port"
      * port of dev server
      */
-    port: "9500",
+    port: '9500',
     /** "static"
      * This property tells Webpack what static file it should serve
      */
-    static: ["./public"],
+    static: ['./public'],
     /** "open"
      * opens the browser after server is successfully started
      */
@@ -55,13 +57,18 @@ module.exports = {
     liveReload: true,
     historyApiFallback: true,
   },
+  optimization: {
+    // runtimeChunk: 'single',
+    emitOnErrors: true,
+  },
+  devtool: 'source-map',
   resolve: {
     /** "extensions"
      * If multiple files share the same name but have different extensions, webpack will
      * resolve the one with the extension listed first in the array and skip the rest.
      * This is what enables users to leave off the extension when importing
      */
-    extensions: [".js", ".jsx", ".json"],
+    extensions: ['.js', '.jsx', '.json'],
   },
   module: {
     /** "rules"
@@ -74,39 +81,44 @@ module.exports = {
       {
         test: /\.(js|jsx)$/, //kind of file extension this rule should look for and apply in test
         exclude: /node_modules/, //folder to be excluded
-        use: "babel-loader", //loader which we are going to use
+        use: 'babel-loader', //loader which we are going to use
       },
       {
         test: /\.css$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
           // PostCSS loader
-          "postcss-loader",
+          'postcss-loader',
         ],
       },
       {
         test: /\.s[ac]ss$/i,
         use: [
           // Creates `style` nodes from JS strings
-          "style-loader",
+          'style-loader',
           // Translates CSS into CommonJS
-          "css-loader",
+          'css-loader',
           // Compiles Sass to CSS
-          "sass-loader",
+          'sass-loader',
           // PostCSS loader
-          "postcss-loader",
+          'postcss-loader',
         ],
       },
     ],
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: "./public/index.html",
-      favicon: "./public/favicon.png",
+      hash: true,
+      title: 'My awesome chat application',
+      myPageHeader: 'Talksta Webpack',
+      filename: './dist/index.html', //relative to root of the application
+      template: './public/index.html',
+      favicon: './public/favicon.png',
     }),
+    new ESLintPlugin(),
   ],
 };

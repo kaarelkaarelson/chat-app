@@ -1,9 +1,17 @@
-import React from "react";
-import { useNavigate, useLocation } from "react-router-dom";
+import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
+import { pb } from '../hooks/pocketbase';
+import useAuth from '../hooks/useAuth';
 
 const Header = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { auth, logout } = useAuth();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   return (
     <nav className="flex items-center justify-between flex-wrap bg-primary p-6">
@@ -26,23 +34,30 @@ const Header = () => {
       <div className="w-full block flex-grow lg:flex lg:items-center lg:w-auto">
         <div className="text-sm lg:flex-grow">
           <a
-            onClick={() => navigate("/chat")}
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4"
-          >
+            onClick={() => navigate('/auth/chat')}
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
             Join Chat
           </a>
           <a
-            onClick={() => navigate("/profile")}
-            className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4"
-          >
+            onClick={() => navigate('/auth/profile')}
+            className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
             Profile
           </a>
+          <div>{auth ? 'authenticated' : 'not authenticated'}</div>
+
+          <button
+            onClick={(e) => {
+              console.log(pb.authStore.isValid);
+              console.log(auth);
+            }}>
+            Log data
+          </button>
         </div>
         <div>
           <a
-            onClick={() => navigate("/")}
-            className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0"
-          >
+            // onClick={() => navigate("/")}
+            onClick={handleLogout}
+            className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">
             Logout
           </a>
         </div>
