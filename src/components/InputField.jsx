@@ -1,8 +1,12 @@
-import React from "react";
+import React from 'react';
 
 const InputField = ({ value, label, name, placeholder, type, onChange }) => (
   <div className="flex flex-col w-full space-y-2 ">
-    {label && <label htmlFor="input-field" className="text-xl">{label}</label>}
+    {label && (
+      <label htmlFor="input-field" className="text-xl">
+        {label}
+      </label>
+    )}
     <input
       type={type}
       value={value}
