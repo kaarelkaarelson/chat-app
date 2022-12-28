@@ -1,4 +1,4 @@
-const path = require('path');
+const path = require('path'); // Built in node path module
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ESLintPlugin = require('eslint-webpack-plugin');
 
@@ -19,12 +19,12 @@ module.exports = {
     /** "path"
      * the folder path of the output file
      */
-    path: path.resolve(__dirname, 'public'),
+    // path: path.resolve(__dirname, 'public'),
+    path: path.join(__dirname, '/dist'),
     /** "filename"
      * the name of the output file
      */
-    filename: 'main.js',
-    // filename: '[name].js',
+    filename: 'bundle.js',
     publicPath: '/',
   },
   /** "target"
@@ -40,7 +40,7 @@ module.exports = {
     /** "static"
      * This property tells Webpack what static file it should serve
      */
-    static: ['./public'],
+    static: ['./dist'],
     /** "open"
      * opens the browser after server is successfully started
      */
@@ -80,8 +80,13 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/, //kind of file extension this rule should look for and apply in test
-        exclude: /node_modules/, //folder to be excluded
-        use: 'babel-loader', //loader which we are going to use
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
+        },
       },
       {
         test: /\.css$/i,
@@ -90,21 +95,6 @@ module.exports = {
           'style-loader',
           // Translates CSS into CommonJS
           'css-loader',
-          // Compiles Sass to CSS
-          // PostCSS loader
-          'postcss-loader',
-        ],
-      },
-      {
-        test: /\.s[ac]ss$/i,
-        use: [
-          // Creates `style` nodes from JS strings
-          'style-loader',
-          // Translates CSS into CommonJS
-          'css-loader',
-          // Compiles Sass to CSS
-          'sass-loader',
-          // PostCSS loader
           'postcss-loader',
         ],
       },
@@ -115,7 +105,7 @@ module.exports = {
       hash: true,
       title: 'My awesome chat application',
       myPageHeader: 'Talksta Webpack',
-      filename: './dist/index.html', //relative to root of the application
+      filename: './index.html', //relative path to root of the application
       template: './public/index.html',
       favicon: './public/favicon.png',
     }),

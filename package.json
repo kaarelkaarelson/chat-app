@@ -4,8 +4,9 @@
   "description": "Chat application created with React.js",
   "main": "./src/index.js",
   "scripts": {
-    "start": "webpack-dev-server .",
-    "build": "Webpack .",
+    "start": "webpack-dev-server --mode development --open --hot",
+    "build": "webpack --mode production",
+    "lint": "npx eslint --fix --ext .js,.jsx .",
     "test": "test"
   },
   "author": "Kaarel-Richard Kaarelson",
@@ -34,11 +35,9 @@
     "eslint-plugin-unused-imports": "^2.0.0",
     "eslint-webpack-plugin": "^3.2.0",
     "html-webpack-plugin": "^5.5.0",
-    "node-sass": "^8.0.0",
     "postcss": "^8.4.20",
     "postcss-loader": "^7.0.2",
     "prettier": "^2.8.1",
-    "sass-loader": "^13.2.0",
     "style-loader": "^3.3.1",
     "tailwindcss": "^3.2.4",
     "webpack": "^5.75.0",
@@ -46,10 +45,13 @@
     "webpack-dev-server": "^4.11.1"
   },
   "dependencies": {
+    "@reduxjs/toolkit": "^1.9.1",
+    "date-fns": "^2.29.3",
     "path": "^0.12.7",
     "pocketbase": "^0.9.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-redux": "^8.0.5",
     "react-router-dom": "^6.6.1"
   }
 }

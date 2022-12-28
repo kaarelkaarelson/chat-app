@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Footer = () => {
+function Footer() {
   return (
     <footer className="mt-auto p-4 bg-primary shadow md:px-6 md:py-8 dark:bg-gray-900">
       <div className="sm:flex sm:items-center sm:justify-between">
@@ -39,7 +39,8 @@ const Footer = () => {
       </div>
       <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
       <span className="block text-sm text-gray-500 sm:text-center dark:text-gray-400">
-        Kaarel-Richard Kaarelson © 2022{' '}
+        Kaarel-Richard Kaarelson © 2022
+{' '}
         <a href="https://flowbite.com/" className="hover:underline">
           Talksta™
         </a>
@@ -47,6 +48,6 @@ const Footer = () => {
       </span>
     </footer>
   );
-};
+}
 
 export { Footer };

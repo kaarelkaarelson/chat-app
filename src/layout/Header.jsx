@@ -1,9 +1,9 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { pb } from '../hooks/pocketbase';
+import client from '../api/pocketbase';
 import useAuth from '../hooks/useAuth';
 
-const Header = () => {
+function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { auth, logout } = useAuth();
@@ -12,6 +12,9 @@ const Header = () => {
     logout();
     navigate('/');
   };
+
+  let tokenData = JSON.parse(localStorage.getItem('pocketbase_auth'));
+  // console.log(tokenData.access_token);
 
   return (
     <nav className="flex items-center justify-between flex-wrap bg-primary p-6">
@@ -47,8 +50,9 @@ const Header = () => {
 
           <button
             onClick={(e) => {
-              console.log(pb.authStore.isValid);
+              console.log(client.authStore.isValid);
               console.log(auth);
+              console.log(tokenData)
             }}>
             Log data
           </button>
@@ -64,6 +68,6 @@ const Header = () => {
       </div>
     </nav>
   );
-};
+}
 
 export { Header };
