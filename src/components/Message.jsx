@@ -4,11 +4,15 @@ import { useSelector } from 'react-redux';
 import ReactionButtons from './ReactionButtons';
 import TimeAgo from './TimeAgo';
 import useAuth from '../hooks/useAuth';
+import { useEffect } from 'react';
 
 const Message = ({ message }) => {
   const users = useSelector(selectAllUsers);
   const messageByUser = users.find((user) => user.id === message.userId);
 
+  useEffect(() => {
+    console.log(messageByUser)
+  }, [])
   const { auth } = useAuth();
   const userId = auth.id;
 

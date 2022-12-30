@@ -8,16 +8,22 @@ import Chat from './components/Chat';
 import { Profile } from './components/Profile';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import store from './redux/store';
-import { fetchMessages } from './redux/slices/messagesSlice';
+import { fetchMessages, getMessagesCanFetch, getMessagesIsLoading } from './redux/slices/messagesSlice';
 import { fetchUsers } from './redux/slices/usersSlice';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const App = () => {
+  const canFetch = useSelector(getMessagesCanFetch);
+
   useEffect(() => {
-    store.dispatch(fetchMessages());
-    store.dispatch(fetchUsers());
-  });
+    console.log('inside use effect', canFetch);
+    if (canFetch) {
+      store.dispatch(fetchUsers());
+      store.dispatch(fetchMessages());
+    }
+  }, [canFetch]);
 
   return (
     <div>

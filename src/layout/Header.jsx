@@ -2,11 +2,13 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import client from '../api/pocketbase';
 import useAuth from '../hooks/useAuth';
+import { useSelector, useDispatch } from 'react-redux';
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { auth, logout } = useAuth();
+  const state = useSelector((state) => state)
 
   const handleLogout = () => {
     logout();
@@ -52,9 +54,15 @@ function Header() {
             onClick={(e) => {
               console.log(client.authStore.isValid);
               console.log(auth);
-              console.log(tokenData)
+              console.log(tokenData);
             }}>
             Log data
+          </button>
+          <button
+            onClick={(e) => {
+              console.log(state);
+            }}>
+            Log state
           </button>
         </div>
         <div>
