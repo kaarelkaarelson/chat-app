@@ -47,6 +47,7 @@ const AuthProvider = ({ children }) => {
       setIsLoading(false);
       return;
     }
+    
 
     const authData = {
       id: tokenData.model.id,
