@@ -77,49 +77,79 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-For this you need npm and node. You can check if you have them installed by running `npm -v` and `node -v` in terminal. Here's how to install them.
+For this you need npm and node. You can check if you have them installed by running `npm -v` and `node -v` in terminal. If you have node already, here's how to install npm.
 
 - npm
-  ```sh
+  ```
   npm install npm@latest -g
   ```
-- node
-  ```sh
-  npm install node@latest -g
-  ```
+
 
 ### Installation
 
 <!-- 1. Get a free API Key at [https://example.com](https://example.com) -->
 
 1. Clone the repo
-   ```sh
+   ```
    git clone https://github.com/kaarelkaarelson/chat-app.git
    ```
-2. Install NPM packages
+2. Navigate to project directory
+   ```
+   cd <project-name>
+   ```
+   
+### Setup Pocketbase backend
+
+3. Navigate to server directory
+   ```
+   cd server
+   ```
+4. Execute database migration scripts and serve admin UI
+   ```
+   ./pocketbase migrate && ./pocketbase serve
+   ```
+5. Open browser
+
+    [http://127.0.0.1:8090/_/](http://127.0.0.1:8090/_/)
+6. Login with the following credentials
+   
+   Email
+   ```
+   admin@admin.com
+   ```
+   
+   Password
+   ```
+   admin12345
+   ```
+   
+### Setup Front-end
+
+7. Navigate to server directory
+   ```
+   cd <project-name>/client
+   ```
+8. Install NPM packages
    ```sh
    npm install
    ```
-3. Generate webpack development build
+9. Start the application
    ```sh
-   npm run build
+   npm run start
    ```
-4. Start the application
-   ```sh
-   npm start
-   ```
-   <!-- 5. Enter your API in `config.js`
-      ```js
-      const API_KEY = 'ENTER YOUR API';
-      ``` -->
+10. Open browser
+
+    [http://localhost:9500/](http://localhost:9500/)
+   
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- USAGE EXAMPLES -->
 
-## Usage
+<!-- ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources. -->
 
 <!-- CONTACT -->
 

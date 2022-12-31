@@ -58,13 +58,6 @@ export const usersSlice = createSlice({
         };
       },
     },
-    addReactionAct(state, action) {
-      const { messageId, reaction } = action.payload;
-      const existingMessage = state.messages.find((message) => message.id === messageId);
-      if (existingMessage) {
-        existingMessage.reactions[reaction]++;
-      }
-    },
   },
   extraReducers(builder) {
     builder
@@ -88,6 +81,8 @@ export const usersSlice = createSlice({
 
         console.log('loadedUsers', loadedUsers);
 
+        state.isLoading = false;
+        state.error = false;
         state.users = loadedUsers;
       })
       .addCase(fetchUsers.rejected, (state, action) => {

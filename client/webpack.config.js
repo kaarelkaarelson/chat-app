@@ -62,6 +62,9 @@ module.exports = {
     emitOnErrors: true,
   },
   devtool: 'source-map',
+  experiments: {
+    topLevelAwait: true,
+  },
   resolve: {
     /** "extensions"
      * If multiple files share the same name but have different extensions, webpack will

@@ -1,13 +1,12 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { addReactionAct } from '../redux/slices/messagesSlice';
+import { addReaction } from '../redux/slices/messagesSlice';
 
 const reactionEmoji = {
   like: '👍',
   wow: '😮',
   heart: '❤️',
 };
-
 const ReactionButtons = ({ message }) => {
   const dispatch = useDispatch();
 
@@ -17,8 +16,7 @@ const ReactionButtons = ({ message }) => {
         key={name}
         type="button"
         className="reactionButton"
-        onClick={() => dispatch(reactionAdded({ postId: message.id, reaction: name })) }
-      >
+        onClick={() => dispatch(addReaction({ messageId: message.id, reaction: name }))}>
         {emoji} {message?.reactions[name]}
       </button>
     );

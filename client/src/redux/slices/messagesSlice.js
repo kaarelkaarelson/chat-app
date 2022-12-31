@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import client from '../../api/pocketbase';
 
 const initialState = {
-  numOfMessages: 0,
   messages: [],
   isLoading: false,
   error: false,
@@ -17,24 +16,21 @@ export const fetchMessages = createAsyncThunk('messages/fetchMessages', async ()
 export const addNewMessage = createAsyncThunk('messages/addNewMessage', async (messageData) => {
   console.log('beginning new message', messageData);
 
-  try {
-    const response = await client
-      .collection('messages')
-      .create({ message: messageData.message, user_id: messageData.userId });
+  const response = await client
+    .collection('messages')
+    .create({ message: messageData.message, user_id: messageData.userId });
 
-    return response.data;
-  } catch (err) {
-    return err.message;
-  }
+  console.log('message added', response);
+  return response;
 });
 
-export const updateReactions = createAsyncThunk('messages/addNewMessage', async (messageData) => {
-  console.log('beginning new message', messageData);
+export const updateMessage = createAsyncThunk('messages/addNewMessage', async (messageData) => {
+  console.log('updating new message', messageData);
 
   try {
     const response = await client.collection('messages').update({
       id: messageData.id,
-      like: messageData.likes,
+      like: messageData.like,
       wow: messageData.wow,
       heart: messageData.heart,
     });
@@ -53,13 +49,17 @@ export const messagesSlice = createSlice({
 
   reducers: {
     startLoading: (state) => {
+      console.log('starting loading');
       state.isLoading = true;
+    },
+    endLoading: (state) => {
+      console.log('finished loading');
+      state.isLoading = false;
     },
     hasError: (state, action) => {
       state.error = action.payload;
     },
     messagesSuccess: (state, action) => {
-      state.numOfMessages = action.payload.length;
       state.messages = action.payload;
       state.isLoading = false;
     },
@@ -76,8 +76,9 @@ export const messagesSlice = createSlice({
         };
       },
     },
-    addReactionAct(state, action) {
+    addReaction(state, action) {
       const { messageId, reaction } = action.payload;
+      console.log('adding reaction', messageId, reaction);
       const existingMessage = state.messages.find((message) => message.id === messageId);
       if (existingMessage) {
         existingMessage.reactions[reaction]++;
@@ -111,6 +112,8 @@ export const messagesSlice = createSlice({
 
         console.log('loadedMessages', loadedMessages);
 
+        state.isLoading = false;
+        state.error = false;
         state.messages = loadedMessages;
       })
       .addCase(fetchMessages.rejected, (state, action) => {
@@ -119,19 +122,28 @@ export const messagesSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(addNewMessage.fulfilled, (state, action) => {
-        console.log('after', action);
-        // action.payload.id = sortedPosts[sortedPosts.length - 1].id + 1;
-        // action.payload.userId = Number(action.payload.userId);
-        // action.payload.date = new Date().toISOString();
-        // action.payload.reactions = {
-        //   thumbsUp: 0,
-        //   hooray: 0,
-        //   heart: 0,
-        //   rocket: 0,
-        //   eyes: 0,
-        // };
-        // console.log(action.payload);
-        // state.posts.push(action.payload);
+        console.log('after', action.payload);
+        // action.payload.ijd = state.messages.length;
+        const newMessage = {
+          id: state.messages.length,
+          message: action.payload.message,
+          userId: action.payload.user_id,
+          created: new Date().toISOString(),
+          reactions: {
+            like: action.payload.like,
+            wow: action.payload.wow,
+            heart: action.payload.heart,
+          },
+        };
+
+        console.log('cache message', newMessage);
+        state.messages.push(newMessage);
+      })
+      .addCase(addNewMessage.rejected, (state, action) => {
+        console.log('after', action.payload);
+        console.log('failed to create new message');
+        state.status = 'failed';
+        state.error = action.error.message;
       });
   },
 });
@@ -140,7 +152,7 @@ export const selectAllMessages = (state) => state.messages.messages; // Advantag
 export const getMessagesIsLoading = (state) => state.messages.isLoading;
 export const getMessagesError = (state) => state.messages.error;
 
-export const { startLoading, hasError, messagesSuccess, addMessageAct, addReactionAct } =
+export const { startLoading, endLoading, hasError, messagesSuccess, addMessageAct, addReaction } =
   messagesSlice.actions;
 
 export default messagesSlice.reducer;

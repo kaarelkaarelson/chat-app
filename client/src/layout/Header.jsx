@@ -2,11 +2,14 @@ import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import client from '../api/pocketbase';
 import useAuth from '../hooks/useAuth';
+import { useSelector, useDispatch } from 'react-redux';
+import { Button } from '../components/Button';
 
 function Header() {
   const location = useLocation();
   const navigate = useNavigate();
   const { auth, logout } = useAuth();
+  const state = useSelector((state) => state);
 
   const handleLogout = () => {
     logout();
@@ -46,24 +49,34 @@ function Header() {
             className="block mt-4 lg:inline-block lg:mt-0 text-teal-lighter hover:text-white mr-4">
             Profile
           </a>
-          <div>{auth ? 'authenticated' : 'not authenticated'}</div>
-
-          <button
-            onClick={(e) => {
-              console.log(client.authStore.isValid);
-              console.log(auth);
-              console.log(tokenData)
-            }}>
-            Log data
-          </button>
+          {/* for debugging: set to true */}
+          {false && (
+            <div>
+              <div>{auth ? 'authenticated' : 'not authenticated'}</div>
+              <button
+                onClick={(e) => {
+                  console.log(client.authStore.isValid);
+                  console.log(auth);
+                  console.log(tokenData);
+                }}>
+                Log data
+              </button>
+              &nbsp;
+              <button
+                onClick={(e) => {
+                  console.log(state);
+                }}>
+                Log state
+              </button>
+            </div>
+          )}
         </div>
         <div>
-          <a
-            // onClick={() => navigate("/")}
-            onClick={handleLogout}
-            className="inline-block text-sm px-4 py-2 leading-none border rounded text-white border-white hover:border-transparent hover:text-teal hover:bg-white mt-4 lg:mt-0">
+          <Button
+            variant={'small'}
+            onClick={handleLogout}>
             Logout
-          </a>
+          </Button>
         </div>
       </div>
     </nav>

@@ -8,16 +8,17 @@ import Chat from './components/Chat';
 import { Profile } from './components/Profile';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import store from './redux/store';
-import { fetchMessages } from './redux/slices/messagesSlice';
+import { fetchMessages, getMessagesIsLoading } from './redux/slices/messagesSlice';
 import { fetchUsers } from './redux/slices/usersSlice';
 import { LoadingSpinner } from './components/LoadingSpinner';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const App = () => {
   useEffect(() => {
-    store.dispatch(fetchMessages());
     store.dispatch(fetchUsers());
-  });
+    store.dispatch(fetchMessages());
+  }, []);
 
   return (
     <div>
